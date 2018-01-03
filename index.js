@@ -15,7 +15,31 @@ const campgrounds = [
     {
         name: "Mountain Goats Rest",
         image: "https://farm2.staticflickr.com/1281/4684194306_18ebcdb01c.jpg"
-    }
+    },
+    {
+        name: "Salmon Creek",
+        image: "https://farm5.staticflickr.com/4383/37386589826_0218e35baa.jpg"
+    },
+    {
+        name: "Granite Hill",
+        image: "https://farm2.staticflickr.com/1424/1430198323_c26451b047.jpg"
+    },
+    {
+        name: "Mountain Goats Rest",
+        image: "https://farm2.staticflickr.com/1281/4684194306_18ebcdb01c.jpg"
+    },
+    {
+        name: "Salmon Creek",
+        image: "https://farm5.staticflickr.com/4383/37386589826_0218e35baa.jpg"
+    },
+    {
+        name: "Granite Hill",
+        image: "https://farm2.staticflickr.com/1424/1430198323_c26451b047.jpg"
+    },
+    {
+        name: "Mountain Goats Rest",
+        image: "https://farm2.staticflickr.com/1281/4684194306_18ebcdb01c.jpg"
+    },
 ];
 
 // set view engine
