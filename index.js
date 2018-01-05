@@ -1,46 +1,19 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+var express     = require('express'), 
+    app         = express(), 
+    bodyParser  = require('body-parser'),
+    mongoose    = require('mongoose');
 
-// temporary campgrounds array 
-const campgrounds = [
-    {
-        name: "Salmon Creek",
-        image: "https://farm5.staticflickr.com/4383/37386589826_0218e35baa.jpg"
-    },
-    {
-        name: "Granite Hill",
-        image: "https://farm2.staticflickr.com/1424/1430198323_c26451b047.jpg"
-    },
-    {
-        name: "Mountain Goats Rest",
-        image: "https://farm2.staticflickr.com/1281/4684194306_18ebcdb01c.jpg"
-    },
-    {
-        name: "Salmon Creek",
-        image: "https://farm5.staticflickr.com/4383/37386589826_0218e35baa.jpg"
-    },
-    {
-        name: "Granite Hill",
-        image: "https://farm2.staticflickr.com/1424/1430198323_c26451b047.jpg"
-    },
-    {
-        name: "Mountain Goats Rest",
-        image: "https://farm2.staticflickr.com/1281/4684194306_18ebcdb01c.jpg"
-    },
-    {
-        name: "Salmon Creek",
-        image: "https://farm5.staticflickr.com/4383/37386589826_0218e35baa.jpg"
-    },
-    {
-        name: "Granite Hill",
-        image: "https://farm2.staticflickr.com/1424/1430198323_c26451b047.jpg"
-    },
-    {
-        name: "Mountain Goats Rest",
-        image: "https://farm2.staticflickr.com/1281/4684194306_18ebcdb01c.jpg"
-    },
-];
+// connect to db 
+mongoose.connect("mongodb://localhost/yelp_camp");
+
+// CAMPGROUND SCHEMA
+var campgroundSchema = new mongoose.Schema({
+    name: String, 
+    image: String,
+});
+
+// CAMPGROUND MODEL
+var Campground = mongoose.model("Campground", campgroundSchema);
 
 // set view engine
 app.set('view engine', 'ejs');
@@ -54,16 +27,34 @@ app.get('/', function(req, res) {
 
 // Campgrounds route 
 app.get('/campgrounds', function(req, res) {
-    res.render('campgrounds', {campgrounds: campgrounds});
+    // get all campgrounds from db
+    Campground.find({}, function(err, campgrounds) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('campgrounds', {campgrounds: campgrounds});    
+        }
+    });
 });
 
 // post route for campground 
 app.post('/campgrounds', function(req, res) {
-    // get data from form and add to campgrounds array
+    // get data from form and push to db
     let name = req.body.name;
     let imageurl = req.body.image;
-    const newCampground = {name: name, image: imageurl};
-    campgrounds.push(newCampground);
+    Campground.create(
+        {
+            name: name,
+            image: imageurl
+        }, 
+        function(err, campground) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('NEW CAMPGROUND:')
+            console.log(campground);
+        }
+    });
     // redirect back to campgrounds page 
     res.redirect("campgrounds");
 });
