@@ -10,6 +10,7 @@ mongoose.connect("mongodb://localhost/yelp_camp");
 var campgroundSchema = new mongoose.Schema({
     name: String, 
     image: String,
+    description: String,
 });
 
 // CAMPGROUND MODEL
@@ -25,27 +26,29 @@ app.get('/', function(req, res) {
     res.render('landing');
 });
 
-// Campgrounds route 
+// INDEX - Campgrounds route 
 app.get('/campgrounds', function(req, res) {
     // get all campgrounds from db
     Campground.find({}, function(err, campgrounds) {
         if (err) {
             console.log(err);
         } else {
-            res.render('campgrounds', {campgrounds: campgrounds});    
+            res.render('index', {campgrounds: campgrounds});    
         }
     });
 });
 
-// post route for campground 
+// CREATE - post route for campground 
 app.post('/campgrounds', function(req, res) {
     // get data from form and push to db
     let name = req.body.name;
     let imageurl = req.body.image;
+    let description = req.body.description;
     Campground.create(
         {
             name: name,
-            image: imageurl
+            image: imageurl,
+            description: description,
         }, 
         function(err, campground) {
         if (err) {
@@ -53,15 +56,29 @@ app.post('/campgrounds', function(req, res) {
         } else {
             console.log('NEW CAMPGROUND:')
             console.log(campground);
+            // redirect back to campgrounds page 
+            res.redirect("/campgrounds");
         }
     });
-    // redirect back to campgrounds page 
-    res.redirect("campgrounds");
 });
 
-// form to create new campground
+// NEW - form to create new campground
 app.get('/campgrounds/new', function(req, res) {
     res.render("new");
+});
+
+// SHOW - show more info about campground
+app.get('/campgrounds/:id', function(req, res) {
+    // TODO: find campground w/ provided id
+    var id = req.params.id;
+    Campground.findById(id, function(err, campground) {
+        if (err) {
+            console.log(err);
+        } else {
+            // render Show template             
+            res.render('show', {campground: campground});
+        }
+    });
 });
 
 // Server settings 
