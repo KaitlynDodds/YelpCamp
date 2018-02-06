@@ -6,15 +6,12 @@ var Campground = require('./models/campground');
 var seedDB = require('./seeds');
 
 
+// APP CONFIG
+mongoose.connect("mongodb://localhost/yelp_camp");
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: true}));
 seedDB();
 
-// connect to db 
-mongoose.connect("mongodb://localhost/yelp_camp");
-
-// set view engine
-app.set('view engine', 'ejs');
-// use body parser
-app.use(bodyParser.urlencoded({extended: true}));
 
 // landing page route
 app.get('/', function(req, res) {
