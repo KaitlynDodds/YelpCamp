@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 <p><%= campground.name %></p>
 
@@ -12,5 +12,8 @@
 		 - <%= comment.text %>%>
 	</p>
 <% }) %>  
+<p>
+	<a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">New Comment</a>	
+</p>
 
-<% include partials/footer %>
+<% include ../partials/footer %>
