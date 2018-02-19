@@ -8,16 +8,16 @@
 			</p>
 			<div class="list-group">
 				<li class="list-group-item">
-					Info Onw
+					<%= campground.author.username %>
 				</li>
 				<li class="list-group-item active">
-					Info Onw
+					<%= campground.author.username %>
 				</li>
 				<li class="list-group-item">
-					Info Onw
+					<%= campground.author.username %>
 				</li>
 				<li class="list-group-item">
-					Info Onw
+					<%= campground.author.username %>
 				</li>
 			</div>
 			<!-- TODO: MAP -->
@@ -29,6 +29,11 @@
 					<h4 class="pull-right">$9.00/night</h4>
 					<h4><a><%= campground.name %></a></h3>
 					<p><%= campground.description %></p>
+					<em>
+						<p>Submitted By: 
+							<%= campground.author.username %>
+						</p>
+					</em>
 				</div>
 			</div>
 			<div class="well">

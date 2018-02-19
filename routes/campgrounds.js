@@ -29,23 +29,19 @@ router.get('/', function(req, res) {
 });
 
 // CREATE 
-router.post('/', function(req, res) {
-    // get data from form and push to db
-    let name = req.body.name;
-    let imageurl = req.body.image;
-    let description = req.body.description;
-    Campground.create(
-        {
-            name: name,
-            image: imageurl,
-            description: description,
-        }, 
-        function(err, campground) {
+router.post('/', isLoggedIn, function(req, res) {
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    };
+    Campground.create(req.body.campground, (err, campground) => {
         if (err) {
             console.log(err);
         } else {
-            console.log('NEW CAMPGROUND:')
-            console.log(campground);
+            // add user to campground
+            campground.author = author;
+            // save campground
+            campground.save();
             // redirect back to campgrounds page 
             res.redirect("/campgrounds");
         }
@@ -53,7 +49,7 @@ router.post('/', function(req, res) {
 });
 
 // NEW - form to create new campground
-router.get('/new', function(req, res) {
+router.get('/new', isLoggedIn, function(req, res) {
     res.render("campgrounds/new");
 });
 
@@ -65,7 +61,6 @@ router.get('/:id', function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            console.log(campground);
             // render Show template             
             res.render('campgrounds/show', {campground: campground});
         }

@@ -11,6 +11,13 @@ var campgroundSchema = new mongoose.Schema({
     		ref: "Comment"
     	}
     ],
+    author: {
+    	id: {
+    		type: mongoose.Schema.Types.ObjectId,
+    		ref: 'User'
+    	},
+    	username: String
+    }
 });
 
 // CAMPGROUND MODEL
