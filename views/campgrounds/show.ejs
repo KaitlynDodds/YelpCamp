@@ -34,6 +34,9 @@
 							<%= campground.author.username %>
 						</p>
 					</em>
+					<% if (currentUser !== undefined && currentUser._id.toString() === campground.author.id.toString()) { %>
+						<a href="/campgrounds/<%= campground._id %>/edit">Edit Campground</a>
+					<% } %> 
 				</div>
 			</div>
 			<div class="well">
