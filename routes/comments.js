@@ -96,5 +96,23 @@ router.put('/:comment_id', checkCommentOwnership, (req, res) => {
     });
 });
 
+// DELETE
+router.delete('/:comment_id', checkCommentOwnership, (req, res) => {
+    Comment.findByIdAndRemove(req.params.comment_id, (err, comment) => {
+        if (err) {
+            console.log('error: ', err);
+            res.redirect('back');
+        }
+        // remove comment from campground
+        Campground.findById(req.params.id, (err, campground) => {
+            if (err) {
+                console.log('error: ', err);
+                res.redirect('back');
+            }
+            res.redirect('/campgrounds/' + campground._id);
+        });
+    });
+});
+
 
 module.exports = router;
