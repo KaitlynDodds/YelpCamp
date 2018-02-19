@@ -35,7 +35,7 @@
 						</p>
 					</em>
 					<!-- edit and delete button if user is the same user that created campground -->
-					<% if (currentUser !== undefined && currentUser._id.toString() === campground.author.id.toString()) { %>
+					<% if (currentUser && campground.author.id.equals(currentUser._id)) { %>
 						<!-- Edit -->
 						<a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
 						<!-- Delete -->
