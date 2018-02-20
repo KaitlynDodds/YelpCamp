@@ -9,6 +9,7 @@ middlewareObj.isLoggedIn = function(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
+    req.flash('error', 'User Login Required');
     res.redirect('/login');
 }
 
@@ -23,10 +24,12 @@ middlewareObj.checkCommentOwnership = function(req, res, next) {
             } if (comment.author.id.equals(req.user._id)) {  // check that current user owns comment
                 return next();
             } else { // current user does not own comment
+                req.flash('error', 'Unauthorized User');
                 res.redirect('back');
             }
         });
     } else {
+        req.flash('error', 'User Login Required');
         res.redirect('back');
     }
 }
@@ -37,17 +40,20 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next) {
         Campground.findById(req.params.id, (err, campground) => {
             if (err) {
                 console.log('error: ', err);
+                req.flash('error', 'Unable to Retrieve Campground');
                 res.redirect('back');
             } 
             // does user own campground?
             else if (campground.author.id.equals(req.user._id)) {
                 return next();
             } else {
+                req.flash('error', 'Unauthorized User');
                 res.redirect('back');
             }
         });
     } else {
         // not logged in
+        req.flash('error', 'User Login Required');
         res.redirect('back');
     }
 }

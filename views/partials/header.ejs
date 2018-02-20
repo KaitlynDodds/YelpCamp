@@ -31,3 +31,19 @@
                 </div>
             </div>
         </nav>
+
+
+        <!-- check flash message -->
+        <div class="container">
+            <% if (messages.error) { %>
+                <div class="alert alert-danger" role="alert">
+                    <strong>Warning:</strong> <%= messages.error %>
+                </div>
+            <% } %>
+            
+            <% if (messages.success) { %>
+                <div class="alert alert-success" role="alert">
+                    <%= messages.success %>
+                </div>
+            <% } %>
+        </div>

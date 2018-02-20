@@ -30,12 +30,14 @@ router.post('/', middlewareObj.isLoggedIn, function(req, res) {
     Campground.create(req.body.campground, (err, campground) => {
         if (err) {
             console.log(err);
+            res.redirect('/campgrounds/new');
         } else {
             // add user to campground
             campground.author = author;
             // save campground
             campground.save();
             // redirect back to campgrounds page 
+            req.flash('success', 'New campground created!');
             res.redirect("/campgrounds");
         }
     });
@@ -53,6 +55,7 @@ router.get('/:id', function(req, res) {
     Campground.findById(id).populate("comments").exec(function(err, campground) {
         if (err) {
             console.log(err);
+            res.redirect('/campgrounds');
         } else {
             // render Show template             
             res.render('campgrounds/show', {campground: campground});
@@ -76,8 +79,10 @@ router.put('/:id', middlewareObj.checkCampgroundOwnership, (req, res) => {
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, campground) => {
         if (err) {
             console.log('error: ', err);
+            req.flash('error', 'Unable to update campground');
             res.redirect('/campgrounds');
         }
+        req.flash('success', 'Updated Campground');
         res.redirect('/campgrounds/' + campground._id);
     });
 });
@@ -87,7 +92,10 @@ router.delete('/:id', middlewareObj.checkCampgroundOwnership, (req, res) => {
     Campground.findByIdAndRemove(req.params.id, (err, campground) => {
         if (err) {
             console.log('error: ', err);
+            req.flash('error', 'Unable to remove campground');
+            res.redirect('/campgrounds');
         }
+        req.flash('success', 'Removed Campground');
         res.redirect('/campgrounds');
     });
 })
