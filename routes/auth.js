@@ -7,15 +7,7 @@ var Campground  = require('../models/campground');
 var Comment     = require('../models/comment');
 var User        = require('../models/user');
 
-
-
-// isLoggedIn Middleware
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
+const middlewareObj = require('../middleware');
 
 // landing page route
 router.get('/', function(req, res) {
