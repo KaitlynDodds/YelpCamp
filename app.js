@@ -18,6 +18,7 @@ var seedDB          = require('./seeds');
 
 
 // APP CONFIG
+var url = process.env.DATABASEURL || "mongodb://127.0.0.1/yelp_camp";
 mongoose.connect(process.env.DATABASEURL);
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
